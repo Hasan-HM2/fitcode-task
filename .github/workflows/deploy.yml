@@ -12,19 +12,27 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Setup Node
+    - name: Setup Node.js 20
       uses: actions/setup-node@v3
       with:
-        node-version: '18'
+        node-version: '20.19.0' # ⬅️ استخدم إصدار 20.x الأحدث
         cache: 'npm'
 
-    - name: Install dependencies
-      run: npm ci  # استخدم npm ci بدلاً من npm install
+    - name: Clean install dependencies
+      run: |
+        # احذف node_modules و package-lock.json للتأكد من تثبيت نظيف
+        rm -rf node_modules package-lock.json
+        npm install
 
-    - name: Build
+    - name: Build project
       run: npm run build
 
-    - name: Deploy
+    - name: Verify build output
+      run: |
+        echo "Build contents:"
+        ls -la dist/
+
+    - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
