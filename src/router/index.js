@@ -4,17 +4,17 @@ const routes = [
   {
     path: '/',
     name: 'Dashboard',
-    component: () => import('@/components/Dashboard.vue') // المسار الصحيح
+    component: () => import('@/components/Dashboard.vue')
   },
   {
     path: '/reports',
     name: 'Reports', 
-    component: () => import('@/components/Reports.vue') // المسار الصحيح
+    component: () => import('@/components/Reports.vue')
   }
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(process.env.NODE_ENV === 'production' ? '/fitcode-task/' : '/'),
   routes
 })
 
