@@ -17,9 +17,38 @@ import svgLoader from "vite-svg-loader";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // ⬇️⬇️⬇️ الإعداد الأساسي للنشر على GitHub Pages ⬇️⬇️⬇️
   base: process.env.NODE_ENV === "production" ? "/fitcode-task/" : "/",
+  
+  // ⬇️⬇️⬇️ إعدادات البناء المخصصة ⬇️⬇️⬇️
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['vue', 'vue-router', 'pinia'],
+          ui: ['vuetify'],
+        }
+      }
+    }
+  },
+  
+  // ⬇️⬇️⬇️ إعدادات الخادم للتطوير ⬇️⬇️⬇️
+  server: {
+    port: 3000,
+    host: true
+  },
+  
+  // ⬇️⬇️⬇️ إعدادات المعاينة ⬇️⬇️⬇️
+  preview: {
+    port: 3000,
+    host: true
+  },
 
   plugins: [
+    // ⬇️⬇️⬇️ إضافة VueRouter مرة واحدة فقط ⬇️⬇️⬇️
     VueRouter({
       getRouteName: (routeNode) => {
         // Convert pascal case to kebab case
@@ -33,20 +62,6 @@ export default defineConfig({
       },
     }),
 
-    // Docs: https://github.com/posva/unplugin-vue-router
-    // ℹ️ This plugin should be placed before vue plugin
-    VueRouter({
-      getRouteName: (routeNode) => {
-        // Convert pascal case to kebab case
-        return getPascalCaseRouteName(routeNode)
-          .replace(/([a-z\d])([A-Z])/g, "$1-$2")
-          .toLowerCase();
-      },
-      beforeWriteFiles: (root) => {
-        root.insert("/apps/email/:filter", "/src/pages/apps/email/index.vue");
-        root.insert("/apps/email/:label", "/src/pages/apps/email/index.vue");
-      },
-    }),
     vue({
       template: {
         compilerOptions: {
@@ -55,6 +70,7 @@ export default defineConfig({
         },
       },
     }),
+    
     VueDevTools(),
     vueJsx(),
 
@@ -127,7 +143,9 @@ export default defineConfig({
     }),
     svgLoader(),
   ],
+  
   define: { "process.env": {} },
+  
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
@@ -153,9 +171,7 @@ export default defineConfig({
       ),
     },
   },
-  build: {
-    chunkSizeWarningLimit: 5000,
-  },
+
   optimizeDeps: {
     exclude: ["vuetify"],
     entries: ["./src/**/*.vue"],
