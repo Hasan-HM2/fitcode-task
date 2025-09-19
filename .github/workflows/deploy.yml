@@ -15,22 +15,23 @@ jobs:
     - name: Setup Node.js 20
       uses: actions/setup-node@v3
       with:
-        node-version: '20.19.0' # ⬅️ استخدم إصدار 20.x الأحدث
+        node-version: '20.19.0'
         cache: 'npm'
 
-    - name: Clean install dependencies
+    - name: Install dependencies
       run: |
-        # احذف node_modules و package-lock.json للتأكد من تثبيت نظيف
+        # تنظيف شامل وتثبيت نظيف
         rm -rf node_modules package-lock.json
-        npm install
+        npm install --force
+
+    - name: Verify dependencies
+      run: |
+        echo "Checking if @intlify/unplugin-vue-i18n is installed:"
+        npm list @intlify/unplugin-vue-i18n || echo "Package not found, installing..."
+        npm install @intlify/unplugin-vue-i18n --save-dev
 
     - name: Build project
       run: npm run build
-
-    - name: Verify build output
-      run: |
-        echo "Build contents:"
-        ls -la dist/
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
