@@ -19,22 +19,10 @@ jobs:
         cache: 'npm'
 
     - name: Install dependencies
-      run: |
-        npm install
-        npm list --depth=0 # هذا سيعرض التبعيات المثبتة
+      run: npm ci  # استخدم npm ci بدلاً من npm install
 
     - name: Build
-      run: |
-        npm run build --if-present
-        ls -la dist/ # هذا سيعرض محتويات مجلد dist
-
-    - name: Debug info
-      run: |
-        echo "Node version: $(node -v)"
-        echo "NPM version: $(npm -v)"
-        echo "Current directory: $(pwd)"
-        echo "Directory contents:"
-        ls -la
+      run: npm run build
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
