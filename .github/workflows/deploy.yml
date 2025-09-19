@@ -2,39 +2,29 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Setup Node.js 20
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20.19.0'
-        cache: 'npm'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
 
-    - name: Install dependencies
-      run: |
-        # تنظيف شامل وتثبيت نظيف
-        rm -rf node_modules package-lock.json
-        npm install --force
+      - name: Install dependencies
+        run: npm install
 
-    - name: Verify dependencies
-      run: |
-        echo "Checking if @intlify/unplugin-vue-i18n is installed:"
-        npm list @intlify/unplugin-vue-i18n || echo "Package not found, installing..."
-        npm install @intlify/unplugin-vue-i18n --save-dev
+      - name: Build
+        run: npm run build
 
-    - name: Build project
-      run: npm run build
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
