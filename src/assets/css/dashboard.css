@@ -814,3 +814,118 @@ html, body {
         font-size: 0.8rem;
     }
 }
+
+/* تنسيقات خاصة لزر تحويل الثيم للشاشات الصغيرة */
+.theme-toggle-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 16px;
+  position: relative;
+}
+
+.btn.primary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  z-index: 100;
+}
+
+.btn.primary:hover {
+  transform: scale(1.05);
+  background: #2563eb;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.45);
+}
+
+.dashboard.dark .btn.primary {
+  background: #2563eb;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.5);
+}
+
+/* تحسينات للشاشات الصغيرة */
+@media (max-width: 768px) {
+  .theme-toggle-container {
+    position: fixed;
+    bottom: 1px; /* فوق الـ navbar بقليل */
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    margin-top: 0;
+    padding: 12px 16px;
+    background: var(--stat-card-bg);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--header-border);
+  }
+  
+  .btn.primary {
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+    justify-content: center;
+    font-size: 0.95rem;
+  }
+  
+  /* تحسين المساحة في البطاقة لاستيعاب الزر الثابت */
+  .card.actions {
+    padding-bottom: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .theme-toggle-container {
+    padding: 10px 12px;
+  }
+  
+  .btn.primary {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+  
+  .card.actions {
+    padding-bottom: 70px;
+  }
+}
+
+/* تحسينات للوضع الداكن على الشاشات الصغيرة */
+.dashboard.dark .theme-toggle-container {
+  background: rgba(30, 41, 59, 0.9);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* تحسينات للتأكد من أن المحتوى لا يتم إخفاؤه خلف الزر */
+.content {
+  padding-bottom: 140px; /* زيادة المساحة للزر الثابت */
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding-bottom: 160px; /* مساحة إضافية للزر الثابت على الشاشات الصغيرة */
+  }
+}
+
+/* تحسينات للبطاقة التي تحتوي على الزر */
+.card.actions {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* تحسينات للتأكد من أن الزر مرئي دائمًا */
+@media (max-width: 768px) {
+  .theme-toggle-container {
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dashboard.dark .theme-toggle-container {
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+  }
+}
